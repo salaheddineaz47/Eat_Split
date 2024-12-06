@@ -74,7 +74,10 @@ export default function App() {
               selectedFriend={selectedFriend}
             />
             {showAddForm && <FormAddFriend onAddfriend={handleAddfriend} />}
-            <Button className="float-right mr-3" onClick={handleShowAddfriend}>
+            <Button
+              className="float-right mr-3 text-md"
+              onClick={handleShowAddfriend}
+            >
               {showAddForm ? "close" : "Add friend"}
             </Button>
           </div>
