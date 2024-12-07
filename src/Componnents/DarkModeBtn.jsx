@@ -1,10 +1,8 @@
-import React from "react";
-
-const DarkModeBtn = ({ onToggleDarkMode, className }) => {
+const DarkModeBtn = ({ onToggleDarkMode }) => {
   return (
     <button
       onClick={onToggleDarkMode}
-      className={`absolute top-4 right-6 h-20 w-20 rounded-lg p-2 text-lg ${className}`}
+      className="fixed top-4 right-6 h-20 w-20 rounded-lg p-2 text-lg"
     >
       <svg
         className="fill-slate-700 block dark:hidden text-[4rem]"

@@ -8,12 +8,12 @@ export default function FormSplitBill({ selectedFriend, onSplitBill }) {
   const paidByFriend = bill ? bill - paidByUser : "";
   const [whoPay, setWhoPay] = useState("user");
 
-  // const handleBill = (e) => setBill(Number(e.target.value));
-  // const handlepaidByUser = (e) =>
-  //   setPaidByUser(
-  //     Number(e.target.value) < bill ? Number(e.target.value) : paidByUser
-  //   );
-  // const handleWhoPay = (e) => setWhoPay(e.target.value);
+  const handleBill = (e) => setBill(Number(e.target.value));
+  const handlepaidByUser = (e) =>
+    setPaidByUser(
+      Number(e.target.value) < bill ? Number(e.target.value) : paidByUser
+    );
+  const handleWhoPay = (e) => setWhoPay(e.target.value);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -29,18 +29,11 @@ export default function FormSplitBill({ selectedFriend, onSplitBill }) {
       <h2 className="col-span-full text-[2.2rem] uppercase tracking-[-0.5px] mb-4">
         Split a bill with {selectedFriend.name}
       </h2>
-      <FormInput value={bill} onChange={(e) => setBill(Number(e.target.value))}>
+      <FormInput value={bill} onChange={handleBill}>
         <span>💸</span>Bill value
       </FormInput>
 
-      <FormInput
-        value={paidByUser}
-        onChange={(e) =>
-          setPaidByUser(
-            Number(e.target.value) < bill ? Number(e.target.value) : paidByUser
-          )
-        }
-      >
+      <FormInput value={paidByUser} onChange={handlepaidByUser}>
         <span>🧍</span>Your expense
       </FormInput>
 
@@ -50,11 +43,7 @@ export default function FormSplitBill({ selectedFriend, onSplitBill }) {
       </FormInput>
 
       <label>🤑Who is paying the bill ?</label>
-      <select
-        className="custom-imput"
-        value={whoPay}
-        onChange={(e) => setWhoPay(e.target.value)}
-      >
+      <select className="custom-imput" value={whoPay} onChange={handleWhoPay}>
         <option value="user">You</option>
         <option value="friend">{selectedFriend.name}</option>
       </select>

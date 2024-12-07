@@ -41,26 +41,21 @@ export default function App() {
     setDarkMode((prevState) => !prevState);
   }
   useEffect(() => {
-    // Retrieve the stored mode from localStorage on mount
     const mode = JSON.parse(localStorage.getItem("mode"));
 
-    if (mode?.darkMode !== undefined) {
+    if (mode?.darkMode) {
       setDarkMode(mode.darkMode);
-      if (mode.darkMode) {
-        document.body.classList.add("dark");
-      }
     }
-  }, []); // This effect runs only once when the component is mounted
+  }, []);
 
   useEffect(() => {
-    // Update localStorage and document.body when darkMode state changes
     localStorage.setItem("mode", JSON.stringify({ darkMode }));
     if (darkMode) {
       document.body.classList.add("dark");
     } else {
       document.body.classList.remove("dark");
     }
-  }, [darkMode]); // This effect runs when darkMode changes
+  }, [darkMode]);
 
   return (
     <div className="relative">
@@ -81,7 +76,9 @@ export default function App() {
               {showAddForm ? "close" : "Add friend"}
             </Button>
           </div>
+
           {!selectedFriend && <TypingTitle />}
+
           {selectedFriend && (
             <FormSplitBill
               selectedFriend={selectedFriend}
