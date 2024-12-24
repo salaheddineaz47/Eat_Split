@@ -2,7 +2,7 @@ const DarkModeBtn = ({ onToggleDarkMode }) => {
   return (
     <button
       onClick={onToggleDarkMode}
-      className="fixed top-4 right-6 h-20 w-20 rounded-lg p-2 text-lg"
+      className="fixed top-4 right-6 sm:h-20 sm:w-20 h-16 w-16 rounded-lg p-2 text-lg"
     >
       <svg
         className="fill-slate-700 block dark:hidden text-[4rem]"

@@ -23,7 +23,7 @@ export default function FormSplitBill({ selectedFriend, onSplitBill }) {
 
   return (
     <form
-      className="custom-form grid-cols-[1fr_12rem] mb-4 py-[3.2rem] px-[4rem]"
+      className="custom-form grid-cols-1 sm:grid-cols-[1fr_12rem] mb-4 py-[3.2rem] px-[4rem]"
       onSubmit={handleSubmit}
     >
       <h2 className="col-span-full text-[2.2rem] uppercase tracking-[-0.5px] mb-4">
@@ -48,7 +48,7 @@ export default function FormSplitBill({ selectedFriend, onSplitBill }) {
         <option value="friend">{selectedFriend.name}</option>
       </select>
 
-      <Button className="mt-2 col-start-2">Split bill</Button>
+      <Button className="mt-2 col-start-1 md:col-start-2">Split bill</Button>
     </form>
   );
 }

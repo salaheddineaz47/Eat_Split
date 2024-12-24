@@ -26,16 +26,17 @@ export default function FormAddFriend({ onAddfriend }) {
 
   return (
     <form
-      className="custom-form grid-cols-[1fr_1.5fr] mb-4 p-3"
+      className="custom-form sm:grid-cols-[1fr_1.5fr] grid-cols-1 mb-4 p-3"
       onSubmit={handleSumbit}
     >
+      <></>
       <FormInput value={name} onChange={(e) => setName(e.target.value)}>
         🧑‍🤝‍🧑Friend Name
       </FormInput>
       <FormInput value={img} onChange={(e) => setImg(e.target.value)}>
         <span>📷</span>Image url
       </FormInput>
-      <Button className="mt-2 col-start-2">Add</Button>
+      <Button className="mt-2 sm:col-start-2">Add</Button>
     </form>
   );
 }

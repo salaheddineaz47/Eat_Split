@@ -1,21 +1,30 @@
-import { useState, useEffect } from "react";
-import initialFriends from "./assets/FriendsData";
-
-import Button from "./Componnents/Button";
-import FriendList from "./Componnents/FriendList";
-import FormAddFriend from "./Componnents/FormAddFriend";
-import FormSplitBill from "./Componnents/FormSplitBill";
-import Footer from "./Componnents/Footer";
-import TypingTitle from "./Componnents/TypingTitle";
-import DarkModeBtn from "./Componnents/DarkModeBtn";
+import { useState } from "react";
+import { useLocalStorageState } from "./Components/CustomHooks/useLocalStorageState";
+import { useDarkMode } from "./Components/CustomHooks/useDarkMode";
+import Button from "./Components/Button";
+import FriendList from "./Components/FriendList";
+import FormAddFriend from "./Components/FormAddFriend";
+import FormSplitBill from "./Components/FormSplitBill";
+import Footer from "./Components/Footer";
+import TypingTitle from "./Components/TypingTitle";
+import DarkModeBtn from "./Components/DarkModeBtn";
+import ConfirmRemovalDialog from "./Components/ConfirmRemovalDialog";
+import Main from "./Components/Main";
+import Box from "./Components/Box";
+import EmptyFriendList from "./Components/EmptyFriendList";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 export default function App() {
-  const [friendList, setFriendList] = useState(initialFriends);
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, toggleDarkMode] = useDarkMode();
+  const [friendList, setFriendList] = useLocalStorageState([], "friends");
 
-  const handleShowAddfriend = () => setShowAddForm((isop) => !isop);
+  const isEmptyFriendList = friendList.length === 0;
+
+  const handleShowAddfriend = () =>
+    setShowAddForm((isop) => (isEmptyFriendList && isop ? isop : !isop));
 
   const handleAddfriend = (newFriend) => {
     setFriendList((friends) => [...friends, newFriend]);
@@ -24,6 +33,18 @@ export default function App() {
   const handleSelectedFriend = (friend) => {
     setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
     setShowAddForm(false);
+  };
+
+  const handleRemoveFriend = (id) => {
+    const onRemove = () => {
+      setFriendList((friends) => friends.filter((friend) => friend.id !== id));
+      setSelectedFriend(null);
+    };
+    confirmAlert({
+      customUI: ({ onClose }) => (
+        <ConfirmRemovalDialog onClose={onClose} onRemove={onRemove} />
+      ),
+    });
   };
 
   const handleSplitBill = (balance) => {
@@ -37,47 +58,41 @@ export default function App() {
     setSelectedFriend(null);
   };
 
-  function toggleDarkMode() {
-    setDarkMode((prevState) => !prevState);
-  }
-  useEffect(() => {
-    const mode = JSON.parse(localStorage.getItem("mode"));
-
-    if (mode?.darkMode) {
-      setDarkMode(mode.darkMode);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("mode", JSON.stringify({ darkMode }));
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-  }, [darkMode]);
-
   return (
-    <div className="relative">
+    <div className="relative h-screen">
       <DarkModeBtn onToggleDarkMode={toggleDarkMode} />
-      <div className="min-h-[66vh] flex items-center justify-center pt-16 dark:bg-gray-900 dark:text-light">
-        <div className="grid md:grid-cols-[34rem_44rem] gap-16 items-start grid-cols-[44rem]">
-          <div className="sidebar mb-12">
+      <Main>
+        <Box type="sideBar">
+          {!isEmptyFriendList && (
             <FriendList
               friends={friendList}
               onSelectedFriend={handleSelectedFriend}
               selectedFriend={selectedFriend}
+              onRemoveFriend={handleRemoveFriend}
             />
-            {showAddForm && <FormAddFriend onAddfriend={handleAddfriend} />}
+          )}
+
+          {isEmptyFriendList && !showAddForm && (
+            <EmptyFriendList onShowAddfriend={handleShowAddfriend} />
+          )}
+          {showAddForm && <FormAddFriend onAddfriend={handleAddfriend} />}
+
+          {!isEmptyFriendList && (
             <Button
-              className="float-right mr-3 text-md"
+              className={`float-right mr-3  ${
+                isEmptyFriendList ? "text-2xl px-6 py-3" : "text-lg"
+              }`}
               onClick={handleShowAddfriend}
             >
               {showAddForm ? "close" : "Add friend"}
             </Button>
-          </div>
+          )}
+        </Box>
 
-          {!selectedFriend && <TypingTitle />}
+        <Box type="simple" isEmptyFriendList={isEmptyFriendList}>
+          {!selectedFriend && (
+            <TypingTitle isEmptyFriendList={isEmptyFriendList} />
+          )}
 
           {selectedFriend && (
             <FormSplitBill
@@ -86,8 +101,8 @@ export default function App() {
               key={selectedFriend.id}
             />
           )}
-        </div>
-      </div>
+        </Box>
+      </Main>
       <Footer />
     </div>
   );

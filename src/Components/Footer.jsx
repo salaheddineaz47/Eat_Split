@@ -4,7 +4,7 @@ import { TbCashRegister } from "react-icons/tb";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#eee] text-white py-16 px-20 dark:bg-gray-800 text-5xl">
+    <footer className="bg-[#eee] min-h-[33vh] text-white py-[4.1rem] px-20 dark:bg-gray-800 text-5xl">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
         {/* Logo and Social Links */}
         <div className="flex flex-col items-start space-y-6">
@@ -129,7 +129,7 @@ const Footer = () => {
                 href="#"
                 className="hover:text-[#222] dark:hover:text-slate-200 transition duration-300"
               >
-                About discoverfood
+                About Eat-Split
               </a>
             </li>
             <li>
@@ -145,7 +145,7 @@ const Footer = () => {
                 href="#"
                 className="hover:text-[#222] dark:hover:text-slate-200 transition duration-300"
               >
-                Cooking partners
+                partners
               </a>
             </li>
             <li>
@@ -170,7 +170,7 @@ const Footer = () => {
                 href="#"
                 className="hover:text-[#222] dark:hover:text-slate-200 transition duration-300"
               >
-                Recipe directory
+                Eat-split directory
               </a>
             </li>
             <li>

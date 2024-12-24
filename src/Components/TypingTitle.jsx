@@ -2,10 +2,16 @@ import { useState, useEffect } from "react";
 
 const titles = [
   "split the bill effortlessly.",
-  "share the cost with a friend.",
+  "share the cost with.",
   "keep things even and friendly.",
 ];
-const TypingAnimation = () => {
+const emptyFriendLisTitles = [
+  "No friends? No worries! Add some to split the bill with. 🤝💸",
+  "🍴 Enjoy the meal, and let Eat&Split handle the bill! 🧾💛",
+  "🎉 With Eat&Split, sharing the cost has never been this easy! 🤝💳",
+];
+
+const TypingAnimation = ({ isEmptyFriendList }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -16,7 +22,9 @@ const TypingAnimation = () => {
 
   useEffect(() => {
     const handleTyping = () => {
-      const fullText = titles[currentIndex];
+      const fullText = isEmptyFriendList
+        ? emptyFriendLisTitles[currentIndex]
+        : titles[currentIndex];
 
       if (!isDeleting) {
         if (displayedText.length < fullText.length) {
@@ -41,13 +49,14 @@ const TypingAnimation = () => {
     );
 
     return () => clearTimeout(typingTimer);
-  }, [displayedText, isDeleting, currentIndex]);
+  }, [displayedText, isDeleting, currentIndex, isEmptyFriendList]);
 
   return (
     <h1 className="self-center text-5xl font-extrabold text-gray-800 relative text-center dark:text-medium">
-      <span>Tap to </span>
+      {!isEmptyFriendList && <span>Select a friend to </span>}
+      {/* <span>Tap to </span> */}
       <span>{displayedText}</span>
-      <span className="inline-block w-1 h-8 bg-gray-800 animate-blink ml-1"></span>
+      <span className="inline-block w-1 h-8 bg-gray-800 dark:bg-medium animate-blink ml-1"></span>
     </h1>
   );
 };
